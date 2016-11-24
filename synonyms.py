@@ -45,22 +45,38 @@ def build_semantic_descriptors(sentences):
 
 
 
+# def build_semantic_descriptors_from_files(filenames):
+#     sentences = []
+#     start = time.time()
+#     for n in range(len(filenames)):
+#         file = open(filenames[n], encoding="latin1").read().lower()
+#         file = file.replace('!', " ").replace('.', ' ').replace('?', ' ')
+#         file = file.split()
+#         sentences.append(file)
+#     #print(sentences)
+#     dictionary = build_semantic_descriptors(sentences)
+#     #print(dictionary['pride'])
+#     print(time.time() - start)
+#     #return dictionary
+
+
 def build_semantic_descriptors_from_files(filenames):
-    sentences = []
-    start = time.time()
-    for n in range(len(filenames)):
-        file = open(filenames[n], encoding="latin1").read().lower()
-        file = file.replace('!', " ").replace('.', ' ').replace('?', ' ')
-        file = file.split()
-        sentences.append(file)
-    #print(sentences)
-    #dictionary = build_semantic_descriptors(sentences)
-    #print(dictionary['pride'])
-    print(time.time() - start)
-    #return dictionary
-
-
-
+      sentences = []
+      start = time.time()
+      for n in range(len(filenames)):
+          file = open(filenames[n], encoding="latin1").read().lower().split('.')
+          for i in range(len(file)):
+              file[i] = file[i].split('!')
+              for j in range(len(file[i])):
+                  file[i][j] = file[i][j].split('?')
+                  for k in range(len(file[i][j])):
+                      file[i][j][k] = file[i][j][k].split()
+                      sentences.append(file[i][j][k])
+      print(sentences)
+      #dictionary = build_semantic_descriptors(sentences)
+      #print(dictionary['pride'])
+      print(time.time() - start)
+      #return dictionary
 
 def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
     scores = []
