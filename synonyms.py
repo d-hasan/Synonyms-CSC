@@ -36,10 +36,10 @@ def build_semantic_descriptors(sentences):
                 d[word] = {}
             for accomp_word in sentence:
                 if accomp_word != word:
-                    if accomp_word in d[word]:
-                        d[word][accomp_word] += 1
-                    else:
+                    if accomp_word not in d[word]:
                         d[word][accomp_word] = 1
+                    
+                    
     return d
     
 
@@ -70,13 +70,14 @@ def build_semantic_descriptors_from_files(filenames):
               for j in range(len(file[i])):
                   file[i][j] = file[i][j].split('?')
                   for k in range(len(file[i][j])):
+                      file[i][j][k] = file[i][j][k].replace(',', ' ').replace('-',' ').replace('--', ' ').replace(':',' ').replace(';',' ')
                       file[i][j][k] = file[i][j][k].split()
                       sentences.append(file[i][j][k])
-      print(sentences)
-      #dictionary = build_semantic_descriptors(sentences)
+      #print(sentences)
+      dictionary = build_semantic_descriptors(sentences)
       #print(dictionary['pride'])
       print(time.time() - start)
-      #return dictionary
+      return dictionary
 
 def most_similar_word(word, choices, semantic_descriptors, similarity_fn):
     scores = []
@@ -88,8 +89,10 @@ def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     pass
 
 if __name__ == "__main__":
-    filenames = ["swann.txt", "war_and_peace.txt"]
-    semantic_descriptors = build_semantic_descriptors_from_files(filenames)
+    # filenames = ["swann.txt", "war_and_peace.txt"]
+    # semantic_descriptors = build_semantic_descriptors_from_files(filenames)
+    #print(semantic_descriptors['majestic'])
+    print(build_semantic_descriptors([['hello', 'hello', 'hello', 'hi'], ['hello', 'hi']]))
     
     # choices = ['him', 'her', 'woman', 'prejudice']
     # print(most_similar_word(man, choices, semantic_descriptors, cosine_similary))
