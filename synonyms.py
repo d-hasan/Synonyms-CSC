@@ -34,12 +34,12 @@ def build_semantic_descriptors(sentences):
         for word in sentence:
             if word not in d:
                 d[word] = {}
-            for i in sentence:
-                if i != word:
-                    if i in d[word]:
-                        d[word][i] += 1
+            for accomp_word in sentence:
+                if accomp_word != word:
+                    if accomp_word in d[word]:
+                        d[word][accomp_word] += 1
                     else:
-                        d[word][i] = 1
+                        d[word][accomp_word] = 1
     return d
     
 
