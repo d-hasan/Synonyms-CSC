@@ -38,15 +38,18 @@ def build_semantic_descriptors(sentences):
     #Convential method; test against (try and except) to compare run times
     d = {}
     for sentence in sentences:
-        for word in sentence:
-            if word not in d:
-                d[word] = {}
-            for accomp_word in sentence:
-                if accomp_word != word:
-                    if accomp_word not in d[word]:
-                        d[word][accomp_word] = 1
-                    
-                    
+        words_in_sent = []
+        for words in sentence:
+            if words not in words_in_sent:
+                words_in_sent.append(words)
+        for key_word in words_in_sent:
+            if key_word not in d:
+                d[key_word] = {}
+            for accomp_word in words_in_sent:
+                if key_word != accomp_word:
+                    if accomp_word not in d[key_word]:
+                        d[key_word][accomp_word] = 0
+                    d[key_word][accomp_word] += 1
     return d
     
 
@@ -112,12 +115,12 @@ def run_similarity_test(filename, semantic_descriptors, similarity_fn):
     return correct/len(file)
 
 if __name__ == "__main__":
-    # filenames = ["swann.txt", "war_and_peace.txt"]
-    # semantic_descriptors = build_semantic_descriptors_from_files(filenames)
+    filenames = ["swann.txt", "war_and_peace.txt"]
+    semantic_descriptors = build_semantic_descriptors_from_files(filenames)
     #print(semantic_descriptors['majestic'])
-    print(build_semantic_descriptors([['hello', 'hello', 'hello', 'hi'], ['hello', 'hi']]))
+    #print(build_semantic_descriptors([['hello', 'hello', 'hello', 'hi', 'hi', 'blue', 'blue'], ['hello', 'hi']]))
     
-    # choices = ['him', 'her', 'woman', 'prejudice']
+    #choices = ['him', 'her', 'woman', 'prejudice']
     # print(most_similar_word(man, choices, semantic_descriptors, cosine_similary))
     
     
